@@ -9,6 +9,7 @@ import (
 
 	discovery "github.com/stolostron/discovery/api/v1"
 	"github.com/stolostron/discovery/pkg/ocm/auth"
+	"github.com/stolostron/discovery/pkg/ocm/common"
 	"github.com/stolostron/discovery/pkg/ocm/subscription"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -27,19 +28,30 @@ func DiscoverClusters(token string, baseURL string, baseAuthURL string, filters 
 	}
 
 	// Get subscriptions from accounts_mgmt api
-	subscriptionRequestConfig := subscription.SubscriptionRequest{
+	requestConfig := common.Request{
 		Token:   accessToken,
 		BaseURL: baseURL,
 		Filter:  filters,
 	}
-	subscriptionClient := subscription.SubscriptionClientGenerator.NewClient(subscriptionRequestConfig)
-	subscriptions, err := subscriptionClient.GetSubscriptions()
+
+	// Configure client for OCM requests
+	client := common.OCMClientGenerator.NewClient(requestConfig)
+
+	subscriptions, err := client.GetSubscriptions()
 	if err != nil {
 		return nil, err
 	}
 
 	var discoveredClusters []discovery.DiscoveredCluster
 	for _, sub := range subscriptions {
+		apiURL := ""
+
+		switch sub.Plan.Kind {
+		case "MOA", "MOA-HostedControlPlan":
+			cluster, err := client.GetCluster(sub.ClusterID)
+			apiURL = ""
+		}
+
 		// Build a DiscoveredCluster object from the subscription information
 		if dc, valid := formatCluster(sub); valid {
 			discoveredClusters = append(discoveredClusters, dc)
