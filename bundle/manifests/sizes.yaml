@@ -23,7 +23,7 @@ deployments:
           requests:
             cpu: "200m"
             memory: "512Mi"
-        extralarge:
+        extra-large:
           limits:
             cpu: "2"
             memory: "4Gi"
