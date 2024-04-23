@@ -2,29 +2,29 @@ containers:
   - name: discovery-operator
     small:
       limits:
-  	  cpu: 50m
-  	  memory: 75Mi
+        cpu: 50m
+        memory: 75Mi
       requests:
-  	  cpu: 1m
-  	  memory: 20Mi
+        cpu: 1m
+        memory: 20Mi
     medium:
-    	limits:
-      	cpu: 500m
-      	memory: 750Mi
-    	requests:
-      	cpu: 10m
-      	memory: 200Mi
+      limits:
+        cpu: 500m
+        memory: 750Mi
+      requests:
+        cpu: 10m
+        memory: 200Mi
     large:
-  	  limits:
-    	  cpu: 1
-    	  memory: 2Gi
-  	  requests:
-    	  cpu: 200m
-    	  memory: 512Mi
+      limits:
+        cpu: 1
+        memory: 2Gi
+      requests:
+        cpu: 200m
+        memory: 512Mi
     extralarge:
-  	  limits:
-    	  cpu: 2
-    	  memory: 4Gi
-  	  requests:
-    	  cpu: 500m
-    	  memory: 1Gi
+      limits:
+        cpu: 2
+        memory: 4Gi
+      requests:
+        cpu: 500m
+        memory: 1Gi
